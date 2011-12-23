@@ -1,0 +1,67 @@
+HTML5 Video Class
+
+Writes a properly formatted <video> tag into a web page, 
+with a minimum of fuss and with usable defaults.
+
+ASSUMPTIONS:
+If these assumptions are not met, there are function calls you can use to override them.
+However, having things set up this way will mean you spend less time and write less code.
+
+1. Constant: BASE_URL exists, with trailing slash.
+Example: http://www.mysite.com/
+
+2. Constant: BASEPATH exists, with trailing slash.
+Example: /var/htdocs/mysite/
+
+3. Your video files and poster image are located in a /media/ directory, at the BASEPATH.
+
+4. A Flash-based MP4 player called "flvplayer.swf" is located at the BASE_URL.
+
+
+USAGE:
+
+First, prepare your video files and poster image. 
+You will need 3 video formats: .mp4, .webm, and .ogv. Example:
+	myvideo.mp4
+	myvideo.webm
+	myvideo.ogv
+	myvideo.jpg
+
+Minimal sample code:
+(3 lines of code to render a video.)
+
+	require_once html5_video.class.php;
+	try {
+		$video = new html5_video('videlement', 'myvideo'); // ID of the <video> tag, filename of the video files.
+		$video->setDimensions(640, 480); // Width, height
+		$video->render();
+	} catch (Exception $ex) {
+		// Replace this code if you want to handle exceptions more gracefully.
+		die('ERROR: ' . $ex->getMessage());
+	}
+	
+Extended sample code:
+(Overriding the class defaults, using additional features.)
+
+	require_once html5_video.class.php;
+	try {
+		$video = new html5_video('videlement', 'myvideo');
+		$video->setDimensions(640, 480);
+		$video->setLocalDir('videos/people/charles'); // Specify an alternate local directory for the media files.
+		$video->setBaseURL('http://www.mysite.com/'); // Needed if you don't have a BASE_URL constant defined.
+		$video->setBasepath('/var/htdocs/mysite/'); // Needed if you don't have a BASEPATH constant defined.
+		$video->setFlashURL('assets/flash/vidplayer.swf'); // Override the default location of the Flash player.
+		$video->use_amazon('https://s3.amazonaws.com/mybucket/'); // Pull videos from Amazon S3 storage.
+		$video->useControls(false); // Don't show player controls.
+		$video->setAutoplay(true); // Make the video start playing as soon as it loads.
+		$video->render();
+	} catch (Exception $ex) {
+		// Replace this code if you want to handle exceptions more gracefully.
+		die('ERROR: ' . $ex->getMessage());
+	}
+
+Note:
+If you need to capture the HTML output to a variable, instead of writing it directly to the page, 
+then replace the "render()" line of the example with this:
+
+	$vid_HTML = $video->render(false);
