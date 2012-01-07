@@ -8,9 +8,12 @@
 	For usage details, see the file: HTML5_video_README.txt
 
 	@author Charles Schoenfeld, Adams & Knight
-	@version 1.0
+	@version 1.1
 	
 	Version History:
+	1.1:
+		Fixes for situations with alternate base URLs, basepaths, etc.
+	
 	1.0:
 		Initial Release		
 */
@@ -31,6 +34,7 @@ class html5_video {
 	private $local_baseurl;
 	private $local_dir;
 	private $flashURL;
+	private $permitBlankBaseURL;
 	
 	// Media filenames
 	var $filename_base;
@@ -47,6 +51,7 @@ class html5_video {
 		$this->local_dir = 'media'; // default
 		$this->use_controls = true; // default
 		$this->autoplay = false; // default
+		$this->permitBlankBaseURL = false; // default
 	}
 	
 	public static function hsl($str) { 
@@ -101,6 +106,14 @@ class html5_video {
 			$this->local_baseurl = $str; 
 			return true; 
 		}
+		if (!empty($this->local_baseurl)) {
+			return true; // Value has already been set.
+		}
+		if ($str === false || $this->permitBlankBaseURL === true) {
+			$this->local_baseurl = ''; // Empty base url is desired.
+			$this->permitBlankBaseURL = true;
+			return true;
+		}
 		if (defined('BASE_URL')) { 
 			$this->local_baseurl = BASE_URL; 
 			return true; 
@@ -113,6 +126,9 @@ class html5_video {
 			$this->local_basepath = $str; 
 			return true; 
 		}
+		if (!empty($this->local_basepath)) {
+			return true; // Value has already been set.
+		}
 		if (defined('BASEPATH')) { 
 			$this->local_basepath = BASEPATH; 
 			return true; 
@@ -124,6 +140,9 @@ class html5_video {
 		if (!empty($str)) { 
 			$this->flashURL = $str; 
 			return true; 
+		}
+		if (!empty($this->flashURL)) {
+			return true; // Value has already been set.
 		}
 		$this->flashURL = $this->local_basepath . 'flvplayer.swf'; // Default
 		return true;
