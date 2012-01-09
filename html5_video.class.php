@@ -13,6 +13,7 @@
 	Version History:
 	1.1:
 		Fixes for situations with alternate base URLs, basepaths, etc.
+		Fix for OGV file extension.
 	
 	1.0:
 		Initial Release		
@@ -84,7 +85,7 @@ class html5_video {
 		$this->filename_base = $base;
 		$this->filename_webm = $base . '.webm';
 		$this->filename_mp4 = $base . '.mp4';
-		$this->filename_ogg = $base . '.ogg';
+		$this->filename_ogg = $base . '.ogv';
 		$this->poster_image = $base . '.jpg';
 		return true;
 	}
