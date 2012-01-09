@@ -145,7 +145,7 @@ class html5_video {
 		if (!empty($this->flashURL)) {
 			return true; // Value has already been set.
 		}
-		$this->flashURL = $this->local_basepath . 'flvplayer.swf'; // Default
+		$this->flashURL = $this->local_baseurl . 'flvplayer.swf'; // Default
 		return true;
 	}
 	
