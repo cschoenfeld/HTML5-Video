@@ -8,9 +8,14 @@
 	For usage details, see the file: HTML5_video_README.txt
 
 	@author Charles Schoenfeld, Adams & Knight
-	@version 1.1
+	@version 1.2
 	
 	Version History:
+	1.2:
+		Added the option to make the video loop, using ->setLoop(true).
+		Added width & height attributes into the generated HTML tag.
+		Moved higher-quality OGG to first position & lower-quality WebM to last position.
+	
 	1.1:
 		Fixes for situations with alternate base URLs, basepaths, etc.
 		Fix for OGV file extension.
@@ -27,6 +32,7 @@ class html5_video {
 	var $elementID;
 	private $use_controls;
 	private $autoplay;
+	private $loop;
 
 	// URLs and directories
 	private $using_amazon;
@@ -52,6 +58,7 @@ class html5_video {
 		$this->local_dir = 'media'; // default
 		$this->use_controls = true; // default
 		$this->autoplay = false; // default
+		$this->loop = false; // default
 		$this->permitBlankBaseURL = false; // default
 	}
 	
@@ -72,6 +79,10 @@ class html5_video {
 	
 	public function setAutoplay($b=false) {
 		$this->autoplay = ($b === true);
+	}
+	
+	public function setLoop($b=false) {
+		$this->loop = ($b === true);
 	}
 	
 	public function setLocalDir($f=null) {
@@ -191,6 +202,9 @@ class html5_video {
 		// Render the opening video tag & its properties.
 		$out = "\n<video ";
 		if (!empty($this->elementID)) { $out .= 'id="'.$this->elementID.'" '; }
+		if (empty($this->width) === false && empty($this->height) === false && is_numeric($this->width) === true && is_numeric($this->height) === true) {
+			$out .= 'width="' . $this->width . '" height="' . $this->height . '" ';
+		}
 		if ($this->use_controls === true) { $out .= 'controls="controls" '; }
 		if (empty($this->poster_image) === false && file_exists($this->local_basepath . $this->local_dir . '/' . $this->poster_image) === true) {
 			$out .= 'poster="' . $this->local_baseurl . $this->local_dir . '/' . $this->poster_image . '" ';
@@ -198,18 +212,21 @@ class html5_video {
 		if ($this->autoplay === true) {
 			$out .= 'autoplay="autoplay" ';
 		}
+		if ($this->loop === true) {
+			$out .= 'loop="loop" ';
+		}
 		$out .= ">\n";
 		
 		// Add the video sources.
 		$sources = $this->checkSources();
-		if (!empty($sources['webm'])) {
-			$out .= "\t<source src=\"" . $sources['webm'] . "\" type='video/webm; codecs=\"vp8, vorbis\"'>\n";
+		if (!empty($sources['ogg'])) {
+			$out .= "\t<source src=\"" . $sources['ogg'] . "\" type='video/ogg; codecs=\"theora, vorbis\"'>\n";
 		}
 		if (!empty($sources['mp4'])) {
 			$out .= "\t<source src=\"" . $sources['mp4'] . "\" type='video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"'>\n";
 		}
-		if (!empty($sources['ogg'])) {
-			$out .= "\t<source src=\"" . $sources['ogg'] . "\" type='video/ogg; codecs=\"theora, vorbis\"'>\n";
+		if (!empty($sources['webm'])) {
+			$out .= "\t<source src=\"" . $sources['webm'] . "\" type='video/webm; codecs=\"vp8, vorbis\"'>\n";
 		}
 		
 		// Add the Flash fallback. 
