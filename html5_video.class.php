@@ -8,9 +8,12 @@
 	For usage details, see the file: HTML5_video_README.txt
 
 	@author Charles Schoenfeld, Adams & Knight
-	@version 1.2
+	@version 1.3
 	
 	Version History:
+	1.3:
+		Added support for poster frames to the Flash fallback.
+	
 	1.2:
 		Added the option to make the video loop, using ->setLoop(true).
 		Added width & height attributes into the generated HTML tag.
@@ -208,6 +211,9 @@ class html5_video {
 		if ($this->use_controls === true) { $out .= 'controls="controls" '; }
 		if (empty($this->poster_image) === false && file_exists($this->local_basepath . $this->local_dir . '/' . $this->poster_image) === true) {
 			$out .= 'poster="' . $this->local_baseurl . $this->local_dir . '/' . $this->poster_image . '" ';
+			$flashposter = "&amp;image=" . $this->local_baseurl . $this->local_dir . '/' . $this->poster_image;
+		} else {
+			$flashposter = '';
 		}
 		if ($this->autoplay === true) {
 			$out .= 'autoplay="autoplay" ';
@@ -234,7 +240,7 @@ class html5_video {
 		if (isset($this->flashURL) === false || empty($this->flashURL) === true) {
 			$this->setFlashURL();
 		}
-		$out .= "\t<embed height=\"" . $this->height . "\" width=\"" . $this->width . "\" flashvars=\"wmode=transparent&amp;height=" . $this->height . "&amp;width=" . $this->width . "&amp;file=" . ($this->local_baseurl . $this->local_dir . '/' . self::hsl($this->filename_mp4)) . "\" allowfullscreen=\"true\" wmode=\"transparent\" quality=\"high\" name=\"player_" . $this->elementID . "\" style=\"undefined\" src=\"" . $this->flashURL . "\" type=\"application/x-shockwave-flash\">\n";
+		$out .= "\t<embed height=\"" . $this->height . "\" width=\"" . $this->width . "\" flashvars=\"wmode=transparent&amp;height=" . $this->height . "&amp;width=" . $this->width . "&amp;file=" . ($this->local_baseurl . $this->local_dir . '/' . self::hsl($this->filename_mp4)) . $flashposter . "\" allowfullscreen=\"true\" wmode=\"transparent\" quality=\"high\" name=\"player_" . $this->elementID . "\" style=\"undefined\" src=\"" . $this->flashURL . "\" type=\"application/x-shockwave-flash\">\n";
 		
 		// Close the video tag
 		$out .= "</video>\n";
