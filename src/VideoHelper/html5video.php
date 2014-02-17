@@ -8,7 +8,7 @@ use Exception;
 	Writes a properly formatted <video> tag into a web page, 
 	with a minimum of fuss and with usable defaults.
 	
-	For usage details, see the file: HTML5_video_README.txt
+	For usage details, see the file: README
 
 	@author Charles Schoenfeld, Adams & Knight
 	@version 1.3
@@ -30,7 +30,7 @@ use Exception;
 		Initial Release		
 */
 
-class html5_video {
+class html5video {
 
 	// HTML element properties
 	var $height;

@@ -30,9 +30,9 @@ You will need 3 video formats: .mp4, .webm, and .ogv. Example:
 Minimal sample code:
 (3 lines of code to render a video.)
 
-	require_once html5_video.class.php;
+	require_once html5video.php;
 	try {
-		$video = new html5_video('videlement', 'myvideo'); // ID of the <video> tag, filename of the video files.
+		$video = new html5video('videlement', 'myvideo'); // ID of the <video> tag, filename of the video files.
 		$video->setDimensions(640, 480); // Width, height
 		$video->render();
 	} catch (Exception $ex) {
@@ -43,9 +43,9 @@ Minimal sample code:
 Extended sample code:
 (Overriding the class defaults, using additional features.)
 
-	require_once html5_video.class.php;
+	require_once html5video.php;
 	try {
-		$video = new html5_video('videlement', 'myvideo');
+		$video = new html5video('videlement', 'myvideo');
 		$video->setDimensions(640, 480);
 		$video->setLocalDir('videos/people/charles'); // Specify an alternate local directory for the media files.
 		$video->setBaseURL('http://www.mysite.com/'); // Needed if you don't have a BASE_URL constant defined.
