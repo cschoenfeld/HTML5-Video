@@ -1,4 +1,7 @@
 <?php
+namespace VideoHelper;
+use Exception;
+
 /*
 	HTML5 Video class.
 	
