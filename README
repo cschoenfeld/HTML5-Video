@@ -18,6 +18,17 @@ Example: /var/htdocs/mysite/
 4. A Flash-based MP4 player called "flvplayer.swf" is located at the BASE_URL.
 
 
+INSTALLATION:
+To install via Composer, put the following in your composer.json file:
+{
+	"require": {
+		"cschoenfeld/html5video": "dev-master"
+	}
+}
+
+Then, just run "composer install" from the command line.
+
+
 USAGE:
 
 First, prepare your video files and poster image. 
