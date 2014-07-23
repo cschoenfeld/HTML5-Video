@@ -61,6 +61,7 @@ Extended sample code:
 		$video->setLocalDir('videos/people/charles'); // Specify an alternate local directory for the media files.
 		$video->setBaseURL('http://www.mysite.com/'); // Needed if you don't have a BASE_URL constant defined.
 		$video->setBasepath('/var/htdocs/mysite/'); // Needed if you don't have a BASEPATH constant defined.
+		$vide->changeFilenames('myvideo-filename.mp4', 'thisvideo.ogv'); // Override the names of individual media files.
 		$video->setFlashURL('assets/flash/vidplayer.swf'); // Override the default location of the Flash player.
 		$video->use_amazon('https://s3.amazonaws.com/mybucket/'); // Pull videos from Amazon S3 storage.
 		$video->useControls(false); // Don't show player controls.

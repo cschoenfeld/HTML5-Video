@@ -11,9 +11,12 @@ use Exception;
 	For usage details, see the file: README
 
 	@author Charles Schoenfeld, Adams & Knight
-	@version 1.3
+	@version 1.4
 	
 	Version History:
+	1.4: 
+		Added a function -- changeFilenames() -- to allow overriding of specific media filenames.
+	
 	1.3:
 		Added support for poster frames to the Flash fallback.
 	
@@ -106,7 +109,14 @@ class html5video {
 		$this->poster_image = $base . '.jpg';
 		return true;
 	}
-	
+
+	function changeFilenames($m=null, $o=null, $w=null, $p=null) {
+		if (empty($m) === false) { $this->filename_mp4 = $m; }
+		if (empty($o) === false) { $this->filename_ogg = $o; }
+		if (empty($w) === false) { $this->filename_webm = $w; }
+		if (empty($p) === false) { $this->poster_image = $p; }
+	}
+		
 	public function setDimensions($width=null, $height=null) {
 		if (!(isset($width) && isset($height) && is_numeric($width) && is_numeric($height))) {
 			throw new Exception('Width and height for the video element were not specified or not numeric.');
